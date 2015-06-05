@@ -1,3 +1,33 @@
+PWCC = window.PWCC || {};
+PWCC.commentReply = (function( window, undefined ){
+	// Avoid scope lookups on commonly used variables
+	var document = window.document;
+	var PWCC = window.PWCC;
+	
+	// initialise the events
+	init();
+	
+	/**
+	 * Add events to links classed .comment-reply-link.
+	 *
+	 * Searches the context for reply links and adds the JavaScript events 
+	 * required to move the comment form. To allow for lazy loading of 
+	 * comments this method is exposed as PWCC.commentReply.init()
+	 *
+	 * @since 0.2
+	 *
+	 * @param {HTMLElement} context The parent DOM element to search for links.
+	 */
+	function init( context ) {
+	}
+	
+	return {
+		init: init
+	};
+	
+})( window );
+
+
 var addComment = {
 	moveForm : function(commId, parentId, respondId, postId) {
 		var t = this, div, comm = t.I(commId), respond = t.I(respondId), cancel = t.I('cancel-comment-reply-link'), parent = t.I('comment_parent'), post = t.I('comment_post_ID');
