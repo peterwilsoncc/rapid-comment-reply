@@ -19,8 +19,77 @@ PWCC.commentReply = (function( window, undefined ){
 	 * @param {HTMLElement} context The parent DOM element to search for links.
 	 */
 	function init( context ) {
+		var links = replyLinks();
+	}	
+
+
+	/**
+	 * Return all links classed .comment-reply-link
+	 *
+	 * @since 0.2
+	 *
+	 * @param {HTMLElement} context The parent DOM element to search for links.
+	 *
+	 * @return {HTMLCollection|NodeList|Array}
+	 */
+	function replyLinks( context ) {
+		var selectorClass = 'comment-reply-link';
+		var replyLinks;
+		var allLinks;
+		var i,l;
+		
+		// childNodes is a handy check to ensure the context is a HTMLElement
+		if ( !context || !context.childNodes ) {
+			context = document;
+		}
+		
+		if ( document.getElementsByClassName ) {
+			// fastest
+			replyLinks = context.getElementsByClassName( selectorClass );
+		}
+		else if ( document.querySelectorAll ) {
+			// fast
+			replyLinks = context.querySelectorAll( '.' + selectorClass );
+		}
+		else {
+			// slow (IE7 and earlier)
+			replyLinks = [];
+			allLinks = context.getElementsByTagName( 'a' );
+
+			for ( i=0,l=allLinks.length; i<l; i++ ) {
+				if ( hasClass( allLinks[i], selectorClass ) ) {
+					replyLinks.push( allLinks[i] );
+				}
+			}
+		}
+		
+		return replyLinks;
 	}
-	
+
+
+	/**
+	 * Check if an element includes a particular class
+	 *
+	 * @since 0.2
+	 *
+	 * @param {HTMLElement} element   The element to check for the class
+	 * @param {String}      className The class to check for
+	 * @returns Boolean
+	 */
+	function hasClass( element, className ) {
+		var elementClass = ' ' + element.className + ' ';
+		className = ' ' + className + ' ';
+		
+		if ( elementClass.indexOf( className ) === -1 ) {
+			// class not found
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+
 	return {
 		init: init
 	};
