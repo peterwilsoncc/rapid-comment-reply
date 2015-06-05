@@ -3,6 +3,7 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.2
 Tested up to: trunk
+Stable tag: 0.1
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
