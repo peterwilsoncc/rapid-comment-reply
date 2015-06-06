@@ -9,28 +9,28 @@ Author URI: http://peterwilson.cc/
 
 
 class PWCC_RapidCommentReply {
-	
+
 	private $version;
-	
+
 	function __construct() {
 		$this->version = "0.2";
-		
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'replace_comment_reply_source' ), 99 );
-		
+
 		add_filter( 'comment_reply_link', array( $this, 'filter_comment_reply_link' ), 10, 4 );
 	}
-	
+
 	function replace_comment_reply_source() {
 		global $wp_scripts;
-		
+
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
-		
+
 		$wp_scripts->registered['comment-reply']->src = plugins_url( "comment-reply$suffix.js", __FILE__ );
 	}
 
 	function filter_comment_reply_link( $link, $args, $comment, $post ) {
 		$link = $this->get_comment_reply_link( $args, $comment, $post );
-		
+
 		return $link;
 	}
 
@@ -142,7 +142,7 @@ class PWCC_RapidCommentReply {
 		 * @param WP_Post $post    The WP_Post object.
 		 */
 		/**
-		 * Filter disabled while editing to avoid infnite loops 
+		 * Filter disabled while editing to avoid infnite loops
 		 */
 		// return apply_filters( 'comment_reply_link', $args['before'] . $link . $args['after'], $args, $comment, $post );
 		return $args['before'] . $link . $args['after'];

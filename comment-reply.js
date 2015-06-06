@@ -3,15 +3,15 @@ PWCC.commentReply = (function( window, undefined ){
 	// Avoid scope lookups on commonly used variables
 	var document = window.document;
 	var PWCC = window.PWCC;
-	
+
 	// initialise the events
 	init();
-	
+
 	/**
 	 * Add events to links classed .comment-reply-link.
 	 *
-	 * Searches the context for reply links and adds the JavaScript events 
-	 * required to move the comment form. To allow for lazy loading of 
+	 * Searches the context for reply links and adds the JavaScript events
+	 * required to move the comment form. To allow for lazy loading of
 	 * comments this method is exposed as PWCC.commentReply.init()
 	 *
 	 * @since 0.2
@@ -22,13 +22,13 @@ PWCC.commentReply = (function( window, undefined ){
 		var links = replyLinks();
 		var i,l;
 		var element;
-		
+
 		for ( i=0, l=links.length; i<l; i++ ) {
 			element = links[i];
-			
+
 			addEvent(element, "click", clickEvent );
 		}
-	}	
+	}
 
 
 	/**
@@ -45,12 +45,12 @@ PWCC.commentReply = (function( window, undefined ){
 		var allReplyLinks;
 		var allLinks;
 		var i,l;
-		
+
 		// childNodes is a handy check to ensure the context is a HTMLElement
 		if ( !context || !context.childNodes ) {
 			context = document;
 		}
-		
+
 		if ( document.getElementsByClassName ) {
 			// fastest
 			allReplyLinks = context.getElementsByClassName( selectorClass );
@@ -70,7 +70,7 @@ PWCC.commentReply = (function( window, undefined ){
 				}
 			}
 		}
-		
+
 		return allReplyLinks;
 	}
 
@@ -87,7 +87,7 @@ PWCC.commentReply = (function( window, undefined ){
 	function hasClass( element, className ) {
 		var elementClass = ' ' + element.className + ' ';
 		className = ' ' + className + ' ';
-		
+
 		if ( elementClass.indexOf( className ) === -1 ) {
 			// class not found
 			return false;
@@ -96,7 +96,7 @@ PWCC.commentReply = (function( window, undefined ){
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Click event handler
 	 *
@@ -110,7 +110,7 @@ PWCC.commentReply = (function( window, undefined ){
 			parentId = replyLink.getAttribute( 'data-comment-id' ),
 			respondId = replyLink.getAttribute( 'data-respond-element'),
 			postId =  replyLink.getAttribute( 'data-post-id');
-		
+
 		addComment.moveForm(commId, parentId, respondId, postId);
 		event.preventDefault();
 	}
@@ -144,7 +144,7 @@ PWCC.commentReply = (function( window, undefined ){
 			element["on" + type] = handleEvent;
 		}
 	}
-	
+
 	// a counter used to create unique IDs
 	addEvent.guid = 1;
 
@@ -181,11 +181,11 @@ PWCC.commentReply = (function( window, undefined ){
 		event.stopPropagation = fixEvent.stopPropagation;
 		return event;
 	}
-	
+
 	fixEvent.preventDefault = function() {
 		this.returnValue = false;
 	};
-	
+
 	fixEvent.stopPropagation = function() {
 		this.cancelBubble = true;
 	};
@@ -245,5 +245,5 @@ PWCC.commentReply = (function( window, undefined ){
 	return {
 		init: init
 	};
-	
+
 })( window );
