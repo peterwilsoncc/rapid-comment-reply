@@ -97,6 +97,13 @@ PWCC.commentReply = (function( window, undefined ){
 		}
 	}
 	
+	/**
+	 * Click event handler
+	 *
+	 * @since 0.2
+	 *
+	 * @param {Event} event The calling event
+	 */
 	function clickEvent( event ) {
 		var replyLink = this,
 			commId = replyLink.getAttribute( 'data-add-below-element'),
