@@ -2,7 +2,7 @@
 /*
 Plugin Name: Rapid Comment Reply
 Description: Reworking of WordPress's frontend comment-reply.js to be unobtrusive. Refer to trac ticket #31590.
-Version: 0.1
+Version: 0.2
 Author: Peter Wilson
 Author URI: http://peterwilson.cc/
 */

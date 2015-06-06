@@ -3,7 +3,7 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.2
 Tested up to: trunk
-Stable tag: 0.1
+Stable tag: 0.2
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
@@ -22,6 +22,10 @@ Development of this plugin is done on [Github](https://github.com/peterwilsoncc/
 Install this from your WordPress dashboard
 
 == Changelog ==
+= 0.2 =
+
+Unobtrusive JS using the existing functions. 
+
 = 0.1 =
 
 Initial version: replaces the WordPress comment-reply.js with the plugin's version
