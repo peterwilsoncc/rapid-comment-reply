@@ -10,7 +10,11 @@ Author URI: http://peterwilson.cc/
 
 class PWCC_RapidCommentReply {
 	
+	private $version;
+	
 	function __construct() {
+		$this->version = "0.2";
+		
 		add_action( 'wp_enqueue_scripts', array( $this, 'replace_comment_reply_source' ), 99 );
 		
 		add_filter( 'comment_reply_link', array( $this, 'filter_comment_reply_link' ), 10, 4 );
