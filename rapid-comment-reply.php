@@ -19,7 +19,9 @@ class PWCC_RapidCommentReply {
 	function replace_comment_reply_source() {
 		global $wp_scripts;
 		
-		$wp_scripts->registered['comment-reply']->src = plugins_url( 'comment-reply.js', __FILE__ );
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
+		
+		$wp_scripts->registered['comment-reply']->src = plugins_url( "comment-reply$suffix.js", __FILE__ );
 	}
 
 	function filter_comment_reply_link( $link, $args, $comment, $post ) {
