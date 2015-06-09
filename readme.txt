@@ -1,8 +1,8 @@
 === Rapid Comment Reply ===
 Contributors: peterwilsoncc
 Tags: comments, javascript
-Requires at least: 4.2
-Tested up to: trunk
+Requires at least: 4.1
+Tested up to: 4.3-alpha
 Stable tag: 0.2
 License: GPL
 License URI: https://wordpress.org/about/gpl/
