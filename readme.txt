@@ -3,7 +3,7 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.1
 Tested up to: 4.3-alpha
-Stable tag: 0.2
+Stable tag: 0.3
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
@@ -22,6 +22,13 @@ Development of this plugin is done on [Github](https://github.com/peterwilsoncc/
 Install this from your WordPress dashboard
 
 == Changelog ==
+= 0.3 =
+
+Check for modern events and selectors in browsers (cuts the mustard)
+Set version of JavaScript file correctly
+Give class instance a PHP global
+Initialise after plugins have loaded
+
 = 0.2 =
 
 Unobtrusive JS using the existing functions. 
