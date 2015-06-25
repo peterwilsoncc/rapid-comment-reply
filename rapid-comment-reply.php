@@ -153,4 +153,8 @@ class PWCC_RapidCommentReply {
 
 }
 
-new PWCC_RapidCommentReply();
+function pwcc_rapid_comment_reply_load(){
+	global $pwcc_rapid_comment_reply;
+	$pwcc_rapid_comment_reply = new PWCC_RapidCommentReply();
+}
+add_action( 'plugins_loaded', 'pwcc_rapid_comment_reply_load' );
