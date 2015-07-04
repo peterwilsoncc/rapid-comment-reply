@@ -125,7 +125,7 @@ class PWCC_RapidCommentReply {
 
 			$data_attribute_string = trim( $data_attribute_string );
 
-			$link = sprintf( "<a class='comment-reply-link' href='%s' %s aria-label='%s'>%s</a>",
+			$link = sprintf( "<a rel='nofollow' class='comment-reply-link' href='%s' %s aria-label='%s'>%s</a>",
 				esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $args['respond_id'],
 				$data_attribute_string,
 				esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ),
