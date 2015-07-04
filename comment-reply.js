@@ -67,6 +67,8 @@ PWCC.commentReply = (function( window, undefined ){
 
 		return allReplyLinks;
 	}
+	
+	
 
 
 	/**
@@ -88,9 +90,24 @@ PWCC.commentReply = (function( window, undefined ){
 	}
 
 
+	/**
+	 * Get element by Id
+	 *
+	 * local alias for document.getElementById
+	 *
+	 * @since 0.4
+	 *
+	 * @param {HTMLElement} The requested element
+	 */
+	function getElementById( elementId ) {
+		return document.getElementById( elementId );
+	}
+
+
+
 	var addComment = {
 		moveForm : function(commId, parentId, respondId, postId) {
-			var t = this, div, comm = t.I(commId), respond = t.I(respondId), cancel = t.I('cancel-comment-reply-link'), parent = t.I('comment_parent'), post = t.I('comment_post_ID');
+			var t = this, div, comm = getElementById(commId), respond = getElementById(respondId), cancel = getElementById('cancel-comment-reply-link'), parent = getElementById('comment_parent'), post = getElementById('comment_post_ID');
 
 			if ( ! comm || ! respond || ! cancel || ! parent )
 				return;
@@ -98,7 +115,7 @@ PWCC.commentReply = (function( window, undefined ){
 			t.respondId = respondId;
 			postId = postId || false;
 
-			if ( ! t.I('wp-temp-form-div') ) {
+			if ( ! getElementById('wp-temp-form-div') ) {
 				div = document.createElement('div');
 				div.id = 'wp-temp-form-div';
 				div.style.display = 'none';
@@ -112,12 +129,12 @@ PWCC.commentReply = (function( window, undefined ){
 			cancel.style.display = '';
 
 			cancel.onclick = function() {
-				var t = addComment, temp = t.I('wp-temp-form-div'), respond = t.I(t.respondId);
+				var t = addComment, temp = getElementById('wp-temp-form-div'), respond = getElementById(t.respondId);
 
 				if ( ! temp || ! respond )
 					return;
 
-				t.I('comment_parent').value = '0';
+				getElementById('comment_parent').value = '0';
 				temp.parentNode.insertBefore(respond, temp);
 				temp.parentNode.removeChild(temp);
 				this.style.display = 'none';
@@ -125,15 +142,12 @@ PWCC.commentReply = (function( window, undefined ){
 				return false;
 			};
 
-			try { t.I('comment').focus(); }
+			try { getElementById('comment').focus(); }
 			catch(e) {}
 
 			return false;
-		},
-
-		I : function(e) {
-			return document.getElementById(e);
 		}
+
 	};
 
 

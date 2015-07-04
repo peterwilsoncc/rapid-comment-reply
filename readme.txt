@@ -3,7 +3,7 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.1
 Tested up to: 4.3-alpha
-Stable tag: 0.3
+Stable tag: 0.4
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
@@ -22,17 +22,22 @@ Development of this plugin is done on [Github](https://github.com/peterwilsoncc/
 Install this from your WordPress dashboard
 
 == Changelog ==
+
+= 0.4 =
+* Move getElementByID alias out of addComment scope
+* Replicate changes to link format in WordPress core
+
 = 0.3 =
 
-Check for modern events and selectors in browsers (cuts the mustard)
-Set version of JavaScript file correctly
-Give class instance a PHP global
-Initialise after plugins have loaded
+* Check for modern events and selectors in browsers (cuts the mustard)
+* Set version of JavaScript file correctly
+* Give class instance a PHP global
+* Initialise after plugins have loaded
 
 = 0.2 =
 
-Unobtrusive JS using the existing functions. 
+* Unobtrusive JS using the existing functions. 
 
 = 0.1 =
 
-Initial version: replaces the WordPress comment-reply.js with the plugin's version
+* Initial version: replaces the WordPress comment-reply.js with the plugin's version
