@@ -3,7 +3,7 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.1
 Tested up to: 4.3-alpha
-Stable tag: 0.4
+Stable tag: 1.0
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
@@ -22,6 +22,9 @@ Development of this plugin is done on [Github](https://github.com/peterwilsoncc/
 Install this from your WordPress dashboard
 
 == Changelog ==
+
+= 1.0 =
+* Refactor the move form code to use modern web techniques
 
 = 0.4 =
 * Move getElementByID alias out of addComment scope
