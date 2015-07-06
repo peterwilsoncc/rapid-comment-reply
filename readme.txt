@@ -14,9 +14,15 @@ Reworking of WordPress's frontend comment-reply.js to be unobtrusive. Refer to t
 
 I am writing this as a plugin for the purposes of dogfooding, I hope to contribute the changes back to core.
 
-== Contributing ==
+*Browser support*
 
-Development of this plugin is done on [Github](https://github.com/peterwilsoncc/rapid-comment-reply). Pull requests are welcome.
+All browsers support comment replies using this plugin.
+
+Visitors using older browsers will use a non-JavaScript fallback when replying to comments. In practical terms, on most sites the fallback will be limited to visitors using IE8 or earlier.
+
+*Contributing*
+
+Development of this plugin is done on [Github](https://github.com/peterwilsoncc/rapid-comment-reply). Pull requests and issue reports are welcome.
 
 == Installation ==
 Install this from your WordPress dashboard
