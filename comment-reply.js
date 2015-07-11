@@ -1,3 +1,4 @@
+var addComment;
 addComment = (function( window, undefined ){
 	// Avoid scope lookups on commonly used variables
 	var document = window.document;
