@@ -1,14 +1,15 @@
-PWCC = window.PWCC || {};
-PWCC.commentReply = (function( window, undefined ){
+addComment = (function( window, undefined ){
 	// Avoid scope lookups on commonly used variables
 	var document = window.document;
-	var PWCC = window.PWCC;
 	
 	// check browser cuts the mustard
 	var cutsTheMustard = 'querySelector' in document && 'addEventListener' in window;
 	
 	// for holding the cancel element
 	var cancelElement;
+	
+	// for holding the comment field element
+	var commentFieldElement;
 	
 	// the respond element
 	var respondElement;
@@ -32,8 +33,9 @@ PWCC.commentReply = (function( window, undefined ){
 			return;
 		}
 
-		// get the cancel element
+		// get required elements
 		cancelElement = getElementById( 'cancel-comment-reply-link' );
+		commentFieldElement = getElementById( 'comment' );
 
 		// no cancel element, no replies
 		if ( ! cancelElement ) {
@@ -125,7 +127,9 @@ PWCC.commentReply = (function( window, undefined ){
 			respondId = replyLink.getAttribute( 'data-respond-element'),
 			postId =  replyLink.getAttribute( 'data-post-id');
 
-		moveForm(commId, parentId, respondId, postId);
+		// third party comments systems can hook into this function via the gloabl scope.
+		// therefore the click event needs to reference the gloabl scope.
+		window.addComment.moveForm(commId, parentId, respondId, postId);
 		event.preventDefault();
 	}
 
@@ -182,7 +186,24 @@ PWCC.commentReply = (function( window, undefined ){
 		
 		cancelElement.style.display = '';
 		addBelowElement.parentNode.insertBefore( respondElement, addBelowElement.nextSibling );
-
+		
+		// this uglyness is for backward compatibility with third party commenting systems
+		// hooking into the event using older techniques.
+		cancelElement.onclick = function(){
+			return false;
+		};
+		
+		// focus on the comment field
+		try {
+			commentFieldElement.focus();
+		}
+		catch(e) {
+			
+		}
+		
+		// false is returned for backward compatibilty with third party commenting systems
+		// hooking into this function. Eg Jetpack Comments.
+		return false;
 	}
 
 
@@ -216,7 +237,8 @@ PWCC.commentReply = (function( window, undefined ){
 
 
 	return {
-		init: init
+		init: init,
+		moveForm: moveForm
 	};
 
 })( window );
