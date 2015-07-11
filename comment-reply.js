@@ -1,6 +1,16 @@
 addComment = (function( window, undefined ){
 	// Avoid scope lookups on commonly used variables
 	var document = window.document;
+
+	// settings
+	var config = {
+		commentReplyClass : 'comment-reply-link',
+		cancelReplyId     : 'cancel-comment-reply-link',
+		commentFieldId    : 'comment',
+		temporaryFormId   : 'wp-temp-form-div',
+		parentIdFieldId   : 'comment_parent',
+		postIdFieldId     : 'comment_post_ID'
+	};
 	
 	// check browser cuts the mustard
 	var cutsTheMustard = 'querySelector' in document && 'addEventListener' in window;
@@ -34,8 +44,8 @@ addComment = (function( window, undefined ){
 		}
 
 		// get required elements
-		cancelElement = getElementById( 'cancel-comment-reply-link' );
-		commentFieldElement = getElementById( 'comment' );
+		cancelElement = getElementById( config.cancelReplyId );
+		commentFieldElement = getElementById( config.commentFieldId );
 
 		// no cancel element, no replies
 		if ( ! cancelElement ) {
@@ -66,7 +76,7 @@ addComment = (function( window, undefined ){
 	 * @return {HTMLCollection|NodeList|Array}
 	 */
 	function replyLinks( context ) {
-		var selectorClass = 'comment-reply-link';
+		var selectorClass = config.commentReplyClass;
 		var allReplyLinks;
 
 		// childNodes is a handy check to ensure the context is a HTMLElement
@@ -96,7 +106,7 @@ addComment = (function( window, undefined ){
 	 */
 	function cancelEvent( event ) {
 		var cancelLink = this;
-		var temporaryFormId  = "wp-temp-form-div";
+		var temporaryFormId  = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
 		
 		if ( ! temporaryElement || ! respondElement ) {
@@ -104,7 +114,7 @@ addComment = (function( window, undefined ){
 			return;
 		}
 
-		getElementById('comment_parent').value = '0';
+		getElementById( config.parentIdFieldId ).value = '0';
 		
 		// move the respond form back in place of the tempory element
 		temporaryElement.parentNode.replaceChild( respondElement ,temporaryElement );
@@ -167,8 +177,8 @@ addComment = (function( window, undefined ){
 		respondElement  = getElementById( respondId );
 		
 		// get the hidden fields
-		var parentIdField   = getElementById( 'comment_parent' );
-		var postIdField     = getElementById( 'comment_post_ID' );
+		var parentIdField   = getElementById( config.parentIdFieldId );
+		var postIdField     = getElementById( config.postIdFieldId );
 		
 		if ( ! addBelowElement || ! respondElement || ! parentIdField ) {
 			// missing key elements, fail
@@ -218,7 +228,7 @@ addComment = (function( window, undefined ){
 	 * @since 1.0
 	 */
 	function addPlaceHolder( respondElement ) {
-		var temporaryFormId  = "wp-temp-form-div";
+		var temporaryFormId  = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
 		
 		if ( temporaryElement ) {
