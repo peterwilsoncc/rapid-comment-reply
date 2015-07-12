@@ -3,7 +3,7 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.1
 Tested up to: 4.3-alpha
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
@@ -29,6 +29,10 @@ Install this from your WordPress dashboard
 
 == Changelog ==
 
+= 1.0.1 =
+* Fix incompatibility with Jetpack Comments
+* Use config object for class names and IDs
+
 = 1.0 =
 * Refactor the move form code to use modern web techniques
 
@@ -50,3 +54,8 @@ Install this from your WordPress dashboard
 = 0.1 =
 
 * Initial version: replaces the WordPress comment-reply.js with the plugin's version
+
+== Upgrade Notice ==
+
+= 1.0.1 =
+Now compatible with Jetpack comments.
