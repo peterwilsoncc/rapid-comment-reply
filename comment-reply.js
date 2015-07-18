@@ -140,12 +140,15 @@ addComment = (function( window, undefined ){
 			commId    = getDataAttribute( replyLink, 'belowelement'),
 			parentId  = getDataAttribute( replyLink, 'commentid' ),
 			respondId = getDataAttribute( replyLink, 'respondelement'),
-			postId    = getDataAttribute( replyLink, 'postid');
+			postId    = getDataAttribute( replyLink, 'postid'),
+			follow    = true;
 
 		// third party comments systems can hook into this function via the gloabl scope.
 		// therefore the click event needs to reference the gloabl scope.
-		window.addComment.moveForm(commId, parentId, respondId, postId);
-		event.preventDefault();
+		follow = window.addComment.moveForm(commId, parentId, respondId, postId);
+		if ( false === follow ) {
+			event.preventDefault();
+		}
 	}
 
 
