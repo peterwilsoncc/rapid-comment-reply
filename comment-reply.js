@@ -2,6 +2,7 @@ var addComment;
 addComment = (function( window, undefined ){
 	// Avoid scope lookups on commonly used variables
 	var document = window.document;
+	var history  = window.history;
 
 	// settings
 	var config = {
@@ -19,6 +20,10 @@ addComment = (function( window, undefined ){
 	// check browser supports dataset
 	// !! sets the variable to truthy if the property exists.
 	var supportsDataset = !!document.body.dataset;
+
+	// check the browser supports history.replaceState
+	// !! sets the variable to truthy if the method exists.
+	var supportsHistoryReplaceState = !!history.replaceState;
 
 	// for holding the cancel element
 	var cancelElement;
@@ -126,6 +131,7 @@ addComment = (function( window, undefined ){
 		// move the respond form back in place of the tempory element
 		temporaryElement.parentNode.replaceChild( respondElement ,temporaryElement );
 		cancelLink.style.display = 'none';
+		historyReplaceState( cancelLink.href );
 		event.preventDefault();
 	}
 
@@ -149,6 +155,7 @@ addComment = (function( window, undefined ){
 		// therefore the click event needs to reference the gloabl scope.
 		follow = window.addComment.moveForm(commId, parentId, respondId, postId);
 		if ( false === follow ) {
+			historyReplaceState( replyLink.href );
 			event.preventDefault();
 		}
 	}
@@ -186,6 +193,18 @@ addComment = (function( window, undefined ){
 	 */
 	function getElementById( elementId ) {
 		return document.getElementById( elementId );
+	}
+
+
+	/**
+	 * local history.replaceState with simpler API
+	 *
+	 * @param {String} url   url to push to the admin bar
+	 */
+	function historyReplaceState( url ) {
+		if ( true === supportsHistoryReplaceState ) {
+			history.replaceState( {u:url}, '', url );
+		}
 	}
 
 
