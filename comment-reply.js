@@ -12,20 +12,20 @@ addComment = (function( window, undefined ){
 		parentIdFieldId   : 'comment_parent',
 		postIdFieldId     : 'comment_post_ID'
 	};
-	
+
 	// check browser cuts the mustard
 	var cutsTheMustard = 'querySelector' in document && 'addEventListener' in window;
 
 	// check browser supports dataset
 	// !! sets the variable to truthy if the property exists.
 	var supportsDataset = !!document.body.dataset;
-	
+
 	// for holding the cancel element
 	var cancelElement;
-	
+
 	// for holding the comment field element
 	var commentFieldElement;
-	
+
 	// the respond element
 	var respondElement;
 
@@ -56,7 +56,7 @@ addComment = (function( window, undefined ){
 		if ( ! cancelElement ) {
 			return;
 		}
-		
+
 		cancelElement.addEventListener( 'touchstart', cancelEvent );
 		cancelElement.addEventListener( 'click',      cancelEvent );
 
@@ -102,11 +102,11 @@ addComment = (function( window, undefined ){
 
 		return allReplyLinks;
 	}
-	
-	
+
+
 	/**
 	 * Cance event handler
-	 * 
+	 *
 	 * @since 1.0
 	 *
 	 * @param {Event} event The calling event
@@ -115,14 +115,14 @@ addComment = (function( window, undefined ){
 		var cancelLink = this;
 		var temporaryFormId  = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
-		
+
 		if ( ! temporaryElement || ! respondElement ) {
 			// conditions for cancel link fail
 			return;
 		}
 
 		getElementById( config.parentIdFieldId ).value = '0';
-		
+
 		// move the respond form back in place of the tempory element
 		temporaryElement.parentNode.replaceChild( respondElement ,temporaryElement );
 		cancelLink.style.display = 'none';
@@ -191,7 +191,7 @@ addComment = (function( window, undefined ){
 
 	/**
 	 * moveForm
-	 * 
+	 *
 	 * Moves the reply form from it's current position to the reply location
 	 *
 	 * @since 1.0
@@ -201,47 +201,47 @@ addComment = (function( window, undefined ){
 	 * @param {String} respondId  HTML ID of 'respond' element
 	 * @param {String} postId     Database ID of the post
 	 */
-	
+
 	function moveForm( addBelowId, commentId, respondId, postId ) {
 		// get elements based on their IDs
 		var addBelowElement = getElementById( addBelowId );
 		respondElement  = getElementById( respondId );
-		
+
 		// get the hidden fields
 		var parentIdField   = getElementById( config.parentIdFieldId );
 		var postIdField     = getElementById( config.postIdFieldId );
-		
+
 		if ( ! addBelowElement || ! respondElement || ! parentIdField ) {
 			// missing key elements, fail
 			return;
 		}
-		
+
 		addPlaceHolder( respondElement );
-		
+
 		// set the value of the post
 		if ( postId && postIdField ) {
 			postIdField.value = postId;
 		}
-		
+
 		parentIdField.value = commentId;
-		
+
 		cancelElement.style.display = '';
 		addBelowElement.parentNode.insertBefore( respondElement, addBelowElement.nextSibling );
-		
+
 		// this uglyness is for backward compatibility with third party commenting systems
 		// hooking into the event using older techniques.
 		cancelElement.onclick = function(){
 			return false;
 		};
-		
+
 		// focus on the comment field
 		try {
 			commentFieldElement.focus();
 		}
 		catch(e) {
-			
+
 		}
-		
+
 		// false is returned for backward compatibilty with third party commenting systems
 		// hooking into this function. Eg Jetpack Comments.
 		return false;
@@ -249,9 +249,9 @@ addComment = (function( window, undefined ){
 
 
 	/**
-	 * add placeholder element 
+	 * add placeholder element
 	 *
-	 * Places a place holder element above the #respond element for 
+	 * Places a place holder element above the #respond element for
 	 * the form to be returned to if needs be.
 	 *
 	 * @param {HTMLelement} respondElement the #respond element holding comment form
@@ -261,18 +261,18 @@ addComment = (function( window, undefined ){
 	function addPlaceHolder( respondElement ) {
 		var temporaryFormId  = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
-		
+
 		if ( temporaryElement ) {
 			// the element already exists.
-			// no need to recreate 
+			// no need to recreate
 			return;
 		}
-		
+
 		temporaryElement = document.createElement( 'div' );
 		temporaryElement.id = temporaryFormId;
 		temporaryElement.style.display = 'none';
 		respondElement.parentNode.insertBefore( temporaryElement, respondElement );
-		
+
 		return;
 	}
 
