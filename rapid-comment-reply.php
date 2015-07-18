@@ -111,10 +111,10 @@ class PWCC_RapidCommentReply {
 			);
 		} else {
 			$data_attributes = array(
-				'comment-id'        => $comment->comment_ID,
-				'post-id'           => $post->ID,
-				'add-below-element' => $args['add_below'] . '-' . $comment->comment_ID,
-				'respond-element'   => $args['respond_id'],
+				'commentid'        => $comment->comment_ID,
+				'postid'           => $post->ID,
+				'belowelement' => $args['add_below'] . '-' . $comment->comment_ID,
+				'respondelement'   => $args['respond_id'],
 			);
 
 			$data_attribute_string = '';
