@@ -57,7 +57,8 @@ addComment = (function( window, undefined ){
 			return;
 		}
 		
-		cancelElement.addEventListener( 'click', cancelEvent );
+		cancelElement.addEventListener( 'touchstart', cancelEvent );
+		cancelElement.addEventListener( 'click',      cancelEvent );
 
 		var links = replyLinks();
 		var i,l;
@@ -66,7 +67,8 @@ addComment = (function( window, undefined ){
 		for ( i=0, l=links.length; i<l; i++ ) {
 			element = links[i];
 
-			element.addEventListener( 'click', clickEvent );
+			element.addEventListener( 'touchstart', clickEvent );
+			element.addEventListener( 'click',      clickEvent );
 		}
 	}
 
