@@ -34,6 +34,9 @@ addComment = (function( window, undefined ){
 	// the respond element
 	var respondElement;
 
+	// the original source for use if history.replaceState supportted.
+	var originalSource = window.location.href;
+
 	// initialise the events
 	init();
 
@@ -131,7 +134,7 @@ addComment = (function( window, undefined ){
 		// move the respond form back in place of the tempory element
 		temporaryElement.parentNode.replaceChild( respondElement ,temporaryElement );
 		cancelLink.style.display = 'none';
-		historyReplaceState( cancelLink.href );
+		historyReplaceState( originalSource );
 		event.preventDefault();
 	}
 
