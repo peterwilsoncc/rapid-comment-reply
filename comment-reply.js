@@ -202,6 +202,8 @@ addComment = (function( window, undefined ){
 	/**
 	 * local history.replaceState with simpler API
 	 *
+	 * @ticket 31590
+	 *
 	 * @param {String} url   url to push to the admin bar
 	 */
 	function historyReplaceState( url ) {
