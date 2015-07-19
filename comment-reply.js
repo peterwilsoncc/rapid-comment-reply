@@ -68,7 +68,7 @@ addComment = (function( window, undefined ){
 		cancelElement.addEventListener( 'touchstart', cancelEvent );
 		cancelElement.addEventListener( 'click',      cancelEvent );
 
-		var links = replyLinks();
+		var links = replyLinks( context );
 		var i,l;
 		var element;
 
