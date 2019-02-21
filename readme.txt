@@ -3,20 +3,17 @@ Contributors: peterwilsoncc
 Tags: comments, javascript
 Requires at least: 4.1
 Tested up to: 4.3-beta
-Stable tag: 1.1.1
+Stable tag: 2.0
 License: GPL
 License URI: https://wordpress.org/about/gpl/
 
-Reworking of WordPress's frontend comment-reply.js to be unobtrusive. Refer to trac ticket #31590.
+Bleeding edge version of WordPress's comment-reply.js.
 
 == Description ==
-Reworking of WordPress's frontend comment-reply.js to be unobtrusive. Refer to trac ticket [#31590](https://core.trac.wordpress.org/ticket/31590).
-
-I am writing this as a plugin for the purposes of dogfooding, I hope to contribute the changes back to core.
+The bleeding edge version of WordPress's comment reply JavaScript.
 
 = Browser support =
-
-All browsers support comment replies using this plugin.
+Browser support is identical to that in core.
 
 Visitors using older browsers will use a non-JavaScript fallback when replying to comments. In practical terms, on most sites the fallback will be limited to visitors using IE8 or earlier.
 
@@ -28,6 +25,9 @@ Development of this plugin is done on [Github](https://github.com/peterwilsoncc/
 Install this from your WordPress dashboard
 
 == Changelog ==
+
+= 2.0 =
+* Re-purposed to include hot-fixes for WordPress core.
 
 = 1.1 =
 * Adds touch events to JavaScript to avoid 300ms delay
@@ -67,3 +67,6 @@ Now featuring touch events, removes delay on touch devices.
 
 = 1.0.1 =
 Now compatible with Jetpack comments.
+
+= 2.0 =
+Includes hot-fixes to be released in WordPress 5.1.1.

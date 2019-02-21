@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Rapid Comment Reply
-Description: Reworking of WordPress's frontend comment-reply.js to be unobtrusive. Refer to trac ticket #31590.
-Version: 1.1.1
+Description: Bleeding edge version of WordPress's comment-reply.js.
+Version: 2.0
 Author: Peter Wilson
 Author URI: http://peterwilson.cc/
 */
