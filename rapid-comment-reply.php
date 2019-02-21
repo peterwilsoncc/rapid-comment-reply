@@ -41,6 +41,8 @@ class PWCC_RapidCommentReply {
 	 * Replace WordPress core's comment-reply.js with this plugin's version.
 	 *
 	 * Runs on the action `wp_enqueue_scripts, 99`.
+	 *
+	 * @global WP_Scripts $wp_scripts Core class used to register scripts.
 	 */
 	function replace_comment_reply_source() {
 		global $wp_scripts;
