@@ -1,58 +1,93 @@
-var addComment;
-addComment = (function( window, undefined ){
-	// Avoid scope lookups on commonly used variables
+/**
+ * Handles the addition of the comment form.
+ *
+ * @since 2.7.0
+ * @output wp-includes/js/comment-reply.js
+ *
+ * @namespace addComment
+ *
+ * @type {Object}
+ */
+window.addComment = ( function( window ) {
+	// Avoid scope lookups on commonly used variables.
 	var document = window.document;
 
-	// settings
+	// Settings.
 	var config = {
 		commentReplyClass : 'comment-reply-link',
 		cancelReplyId     : 'cancel-comment-reply-link',
-		commentFieldId    : 'comment',
+		commentFormId     : 'commentform',
 		temporaryFormId   : 'wp-temp-form-div',
 		parentIdFieldId   : 'comment_parent',
 		postIdFieldId     : 'comment_post_ID'
 	};
 
-	// check browser cuts the mustard
+	// Cross browser MutationObserver.
+	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+
+	// Check browser cuts the mustard.
 	var cutsTheMustard = 'querySelector' in document && 'addEventListener' in window;
 
-	// check browser supports dataset
-	// !! sets the variable to truthy if the property exists.
-	var supportsDataset = !!document.body.dataset;
+	/*
+	 * Check browser supports dataset.
+	 * !! sets the variable to true if the property exists.
+	 */
+	var supportsDataset = !! document.documentElement.dataset;
 
-	// for holding the cancel element
+	// For holding the cancel element.
 	var cancelElement;
 
-	// for holding the comment field element
-	var commentFieldElement;
+	// For holding the comment form element.
+	var commentFormElement;
 
-	// the respond element
+	// The respond element.
 	var respondElement;
 
-	// initialise the events
-	init();
+	// The mutation observer.
+	var observer;
+
+	if ( cutsTheMustard && document.readyState !== 'loading' ) {
+		ready();
+	} else if ( cutsTheMustard ) {
+		window.addEventListener( 'DOMContentLoaded', ready, false );
+	}
+
+	/**
+	 * Sets up object variables after the DOM is ready.
+	 *
+	 * @since 5.1.0
+	 */
+	function ready() {
+		// Initialise the events.
+		init();
+
+		// Set up a MutationObserver to check for comments loaded late.
+		observeChanges();
+	}
 
 	/**
 	 * Add events to links classed .comment-reply-link.
 	 *
 	 * Searches the context for reply links and adds the JavaScript events
 	 * required to move the comment form. To allow for lazy loading of
-	 * comments this method is exposed as PWCC.commentReply.init()
+	 * comments this method is exposed as window.commentReply.init().
 	 *
-	 * @ticket 31590
+	 * @since 5.1.0
+	 *
+	 * @memberOf addComment
 	 *
 	 * @param {HTMLElement} context The parent DOM element to search for links.
 	 */
 	function init( context ) {
-		if ( true !== cutsTheMustard ) {
+		if ( ! cutsTheMustard ) {
 			return;
 		}
 
-		// get required elements
+		// Get required elements.
 		cancelElement = getElementById( config.cancelReplyId );
-		commentFieldElement = getElementById( config.commentFieldId );
+		commentFormElement = getElementById( config.commentFormId );
 
-		// no cancel element, no replies
+		// No cancel element, no replies.
 		if ( ! cancelElement ) {
 			return;
 		}
@@ -61,10 +96,9 @@ addComment = (function( window, undefined ){
 		cancelElement.addEventListener( 'click',      cancelEvent );
 
 		var links = replyLinks( context );
-		var i,l;
 		var element;
 
-		for ( i=0, l=links.length; i<l; i++ ) {
+		for ( var i = 0, l = links.length; i < l; i++ ) {
 			element = links[i];
 
 			element.addEventListener( 'touchstart', clickEvent );
@@ -72,11 +106,10 @@ addComment = (function( window, undefined ){
 		}
 	}
 
-
 	/**
-	 * Return all links classed .comment-reply-link
+	 * Return all links classed .comment-reply-link.
 	 *
-	 * @ticket 31590
+	 * @since 5.1.0
 	 *
 	 * @param {HTMLElement} context The parent DOM element to search for links.
 	 *
@@ -86,30 +119,29 @@ addComment = (function( window, undefined ){
 		var selectorClass = config.commentReplyClass;
 		var allReplyLinks;
 
-		// childNodes is a handy check to ensure the context is a HTMLElement
-		if ( !context || !context.childNodes ) {
+		// childNodes is a handy check to ensure the context is a HTMLElement.
+		if ( ! context || ! context.childNodes ) {
 			context = document;
 		}
 
 		if ( document.getElementsByClassName ) {
-			// fastest
+			// Fastest.
 			allReplyLinks = context.getElementsByClassName( selectorClass );
 		}
 		else {
-			// fast
+			// Fast.
 			allReplyLinks = context.querySelectorAll( '.' + selectorClass );
 		}
 
 		return allReplyLinks;
 	}
 
-
 	/**
-	 * Cance event handler
+	 * Cancel event handler.
 	 *
-	 * @ticket 31590
+	 * @since 5.1.0
 	 *
-	 * @param {Event} event The calling event
+	 * @param {Event} event The calling event.
 	 */
 	function cancelEvent( event ) {
 		var cancelLink = this;
@@ -117,25 +149,24 @@ addComment = (function( window, undefined ){
 		var temporaryElement = getElementById( temporaryFormId );
 
 		if ( ! temporaryElement || ! respondElement ) {
-			// conditions for cancel link fail
+			// Conditions for cancel link fail.
 			return;
 		}
 
 		getElementById( config.parentIdFieldId ).value = '0';
 
-		// move the respond form back in place of the tempory element
+		// Move the respond form back in place of the temporary element.
 		temporaryElement.parentNode.replaceChild( respondElement ,temporaryElement );
 		cancelLink.style.display = 'none';
 		event.preventDefault();
 	}
 
-
 	/**
-	 * Click event handler
+	 * Click event handler.
 	 *
-	 * @ticket 31590
+	 * @since 5.1.0
 	 *
-	 * @param {Event} event The calling event
+	 * @param {Event} event The calling event.
 	 */
 	function clickEvent( event ) {
 		var replyLink = this,
@@ -143,26 +174,73 @@ addComment = (function( window, undefined ){
 			parentId  = getDataAttribute( replyLink, 'commentid' ),
 			respondId = getDataAttribute( replyLink, 'respondelement'),
 			postId    = getDataAttribute( replyLink, 'postid'),
-			follow    = true;
+			follow;
 
-		// third party comments systems can hook into this function via the gloabl scope.
-		// therefore the click event needs to reference the gloabl scope.
+		if ( ! commId || ! parentId || ! respondId || ! postId ) {
+			/*
+			 * Theme or plugin defines own link via custom `wp_list_comments()` callback
+			 * and calls `moveForm()` either directly or via a custom event hook.
+			 */
+			return;
+		}
+
+		/*
+		 * Third party comments systems can hook into this function via the global scope,
+		 * therefore the click event needs to reference the global scope.
+		 */
 		follow = window.addComment.moveForm(commId, parentId, respondId, postId);
 		if ( false === follow ) {
 			event.preventDefault();
 		}
 	}
 
+	/**
+	 * Creates a mutation observer to check for newly inserted comments.
+	 *
+	 * @since 5.1.0
+	 */
+	function observeChanges() {
+		if ( ! MutationObserver ) {
+			return;
+		}
+
+		var observerOptions = {
+			childList: true,
+			subTree: true
+		};
+
+		observer = new MutationObserver( handleChanges );
+		observer.observe( document.body, observerOptions );
+	}
 
 	/**
-	 * Backward compatible getter of data-* attribute
+	 * Handles DOM changes, calling init() if any new nodes are added.
 	 *
-	 * Uses element.dataset if it exists, otherwise uses getAttribute
+	 * @since 5.1.0
 	 *
-	 * @ticket 31590
+	 * @param {Array} mutationRecords Array of MutationRecord objects.
+	 */
+	function handleChanges( mutationRecords ) {
+		var i = mutationRecords.length;
+
+		while ( i-- ) {
+			// Call init() once if any record in this set adds nodes.
+			if ( mutationRecords[ i ].addedNodes.length ) {
+				init();
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Backward compatible getter of data-* attribute.
 	 *
-	 * @param {HTMLElement} element DOM element with the attribute
-	 * @param {String}      attribute the attribute to get
+	 * Uses element.dataset if it exists, otherwise uses getAttribute.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param {HTMLElement} Element DOM element with the attribute.
+	 * @param {String}      Attribute the attribute to get.
 	 *
 	 * @return {String}
 	 */
@@ -176,49 +254,48 @@ addComment = (function( window, undefined ){
 	}
 
 	/**
-	 * Get element by Id
+	 * Get element by ID.
 	 *
-	 * local alias for document.getElementById
+	 * Local alias for document.getElementById.
 	 *
-	 * @ticket 31590
+	 * @since 5.1.0
 	 *
-	 * @param {HTMLElement} The requested element
+	 * @param {HTMLElement} The requested element.
 	 */
 	function getElementById( elementId ) {
 		return document.getElementById( elementId );
 	}
 
-
 	/**
-	 * moveForm
+	 * Moves the reply form from its current position to the reply location.
 	 *
-	 * Moves the reply form from it's current position to the reply location
+	 * @since 2.7.0
 	 *
-	 * @ticket 31590
+	 * @memberOf addComment
 	 *
-	 * @param {String} addBelowId HTML ID of element the form follows
-	 * @param {String} commentId  Database ID of comment being replied to
-	 * @param {String} respondId  HTML ID of 'respond' element
-	 * @param {String} postId     Database ID of the post
+	 * @param {String} addBelowId HTML ID of element the form follows.
+	 * @param {String} commentId  Database ID of comment being replied to.
+	 * @param {String} respondId  HTML ID of 'respond' element.
+	 * @param {String} postId     Database ID of the post.
 	 */
-
 	function moveForm( addBelowId, commentId, respondId, postId ) {
-		// get elements based on their IDs
+		// Get elements based on their IDs.
 		var addBelowElement = getElementById( addBelowId );
 		respondElement  = getElementById( respondId );
 
-		// get the hidden fields
+		// Get the hidden fields.
 		var parentIdField   = getElementById( config.parentIdFieldId );
 		var postIdField     = getElementById( config.postIdFieldId );
+		var element, cssHidden, style;
 
 		if ( ! addBelowElement || ! respondElement || ! parentIdField ) {
-			// missing key elements, fail
+			// Missing key elements, fail.
 			return;
 		}
 
 		addPlaceHolder( respondElement );
 
-		// set the value of the post
+		// Set the value of the post.
 		if ( postId && postIdField ) {
 			postIdField.value = postId;
 		}
@@ -228,43 +305,76 @@ addComment = (function( window, undefined ){
 		cancelElement.style.display = '';
 		addBelowElement.parentNode.insertBefore( respondElement, addBelowElement.nextSibling );
 
-		// this uglyness is for backward compatibility with third party commenting systems
-		// hooking into the event using older techniques.
+		/*
+		 * This is for backward compatibility with third party commenting systems
+		 * hooking into the event using older techniques.
+		 */
 		cancelElement.onclick = function(){
 			return false;
 		};
 
-		// focus on the comment field
+		// Focus on the first field in the comment form.
 		try {
-			commentFieldElement.focus();
+			for ( var i = 0; i < commentFormElement.elements.length; i++ ) {
+				element = commentFormElement.elements[i];
+				cssHidden = false;
+
+				// Get elements computed style.
+				if ( 'getComputedStyle' in window ) {
+					// Modern browsers.
+					style = window.getComputedStyle( element );
+				} else if ( document.documentElement.currentStyle ) {
+					// IE 8.
+					style = element.currentStyle;
+				}
+
+				/*
+				 * For display none, do the same thing jQuery does. For visibility,
+				 * check the element computed style since browsers are already doing
+				 * the job for us. In fact, the visibility computed style is the actual
+				 * computed value and already takes into account the element ancestors.
+				 */
+				if ( ( element.offsetWidth <= 0 && element.offsetHeight <= 0 ) || style.visibility === 'hidden' ) {
+					cssHidden = true;
+				}
+
+				// Skip form elements that are hidden or disabled.
+				if ( 'hidden' === element.type || element.disabled || cssHidden ) {
+					continue;
+				}
+
+				element.focus();
+				// Stop after the first focusable element.
+				break;
+			}
 		}
 		catch(e) {
 
 		}
 
-		// false is returned for backward compatibilty with third party commenting systems
-		// hooking into this function. Eg Jetpack Comments.
+		/*
+		 * false is returned for backward compatibility with third party commenting systems
+		 * hooking into this function.
+		 */
 		return false;
 	}
 
-
 	/**
-	 * add placeholder element
+	 * Add placeholder element.
 	 *
 	 * Places a place holder element above the #respond element for
 	 * the form to be returned to if needs be.
 	 *
-	 * @param {HTMLelement} respondElement the #respond element holding comment form
+	 * @since 2.7.0
 	 *
-	 * @ticket 31590
+	 * @param {HTMLelement} respondElement the #respond element holding comment form.
 	 */
 	function addPlaceHolder( respondElement ) {
 		var temporaryFormId  = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
 
 		if ( temporaryElement ) {
-			// the element already exists.
-			// no need to recreate
+			// The element already exists, no need to recreate.
 			return;
 		}
 
@@ -272,14 +382,10 @@ addComment = (function( window, undefined ){
 		temporaryElement.id = temporaryFormId;
 		temporaryElement.style.display = 'none';
 		respondElement.parentNode.insertBefore( temporaryElement, respondElement );
-
-		return;
 	}
-
 
 	return {
 		init: init,
 		moveForm: moveForm
 	};
-
 })( window );
